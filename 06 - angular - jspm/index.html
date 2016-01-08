@@ -2,7 +2,11 @@
 <html>
 
 <head>
-    <script src="app/bundle.js" async></script>
+    <script src="jspm_packages/system.js"></script>
+    <script src="jspm.config.js"></script>
+    <script>
+        System.import('dist/index.module');
+  </script>
 </head>
 
 <body ng-app="demo">
