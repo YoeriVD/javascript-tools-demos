@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+    <!-- bower:css -->
+    <!-- endbower -->
+
+    <!-- bower:js -->
+    <script src="bower_components/requirejs/require.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <!-- endbower -->
+</head>
+
+<body>
+    <div ng-include="'app/main/main.html'"></div>
+</body>
+<script>
+    require.config({
+        paths : {
+            "app" : "dist"
+        }
+    })
+    requirejs(["app/index.module"], function(app) {
+        //This function is called when app/index.module is loaded.  
+        angular.bootstrap(document, ['demo']) 
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "postinstall" : "bower install && tsd install",
+    "test": "karma",
+    "bower" : "bower install",
+    "wiredep" : "node wiredep.js",
+    "prestart": "ntsc && npm run wiredep",
+    "start": "http-server"
+  },
+  "author": "Yoeri Van Damme",
+  "dependencies": {
+    "wiredep": "^3.0.0"
+  }
+}
