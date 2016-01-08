@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+
+<head>
+<script src="lib/vendor.js"></script>
+</head>
+
+<body>
+    <div ng-include="'src/main/main.html'"></div>
+</body>
+<script>
+    
+    System.config({
+        defaultJSExtensions: true
+    })
+    System.import("src/index.module").then(function(){
+        //This function is called when app/index.module is loaded.  
+        angular.bootstrap(document, ['demo']) 
+    })
+
+</script>
+
+</html>
