@@ -1,0 +1,57 @@
+**
+* TypeScript
+**
+
+create hello world genre greeter
+introduce angular
+install typings
+
+from here => always copy this folder for every lab
+
+**
+* bower & wiredep (? git is not an option, so might skip this)
+**
+
+**
+* System.js
+**
+create hello world and load some library functions using vanilla js
+in project: 
+change tsconfig.json to build as System.js modules
+create settings in index.html and see the whole thing work again
+
+**
+* WebPack
+**
+start from clean solution again
+create webpack.config.js
+build 
+build with progress and colors
+launch dev server
+leverage the power of npm scripting for the above tasks
+
+**
+* JSPM
+**
+
+start clean
+(npm init?)
+jspm init
+add dependency (make sure it is npm)
+run to see effect
+jspm bundle
+run to see effect
+
+**
+* Gulp
+**
+
+start from System.js lab
+
+set up app folder and dist folder
+create gulp tasks for 
+	typescript
+	bundle (vendorjs, install mainbowerfiles)
+	watch (using browserSync)
+
+	
