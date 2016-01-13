@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="jumbotron text-center">
+
+
+        <form ng-submit="main.saveContact()" name="main.form">
+            <p>first name: <input type="text" ng-model="main.newContact.firstName" ng-required="true"></p>
+            <p>last name: <input type="text" ng-model="main.newContact.lastName" ng-required="true"></p>
+            <p>email: <input type="email" ng-model="main.newContact.email" ng-required="true"></p>
+            <p><input type="submit" value="save" ng-disabled="main.form.$invalid"></p>
+        </form>
+
+        <ul>
+            <li ng-repeat="contact in main.contacts">
+                {{ contact | contactName }} : {{ contact.email }}
+            </li>
+        </ul>
+
+    </div>
+</div>
