@@ -56,12 +56,8 @@ npm install http-server --save-dev
 }
 
 **9) add the following script task in package.json:
-"prestart": "ntsc && npm run wiredep"
+"prestart": "tsc && npm run wiredep"
 
 This task will run 'pre' the start task. If you want to, you can also define a 'poststart' task. The 'pre' and 'post' prefixes are a convention and will work for every task defined.
 
-
-
-
-
-**8) let's make sure that wiredep is run everytime we start our application    
+**10) run the application again

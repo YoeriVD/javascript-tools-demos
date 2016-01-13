@@ -1,0 +1,58 @@
+In this lab we will be using WebPack. A nice tool that offers us a few cool features.
+
+*****
+NOTE: I needed to add the following import in index.module.ts to make sure my editor would still work with angular: 
+import * as angular from 'angular';
+*****
+
+
+**1) start by copying the previous lab in a new folder
+
+**2) uninstall system.js
+bower uninstall system.js --save
+
+**3) open tsconfig.json and change "system" to "commonjs"
+
+**3) install the following dependencies with npm
+npm install typescript --save
+npm install awesome-typescript-loader --save
+npm install webpack --save
+npm install webpack-dev-server --save
+
+**4) add the following scripts to package.json. These scripts will help us start webpack.
+  "scripts": {
+    "build": "webpack --progress --colors",
+    "watch": "webpack --progress --colors --watch",
+    "start": "webpack-dev-server --progress --colors"
+  },
+
+**5) almost there, now create the settings for webpack. Add a file webpack.config.js in the root folder with the following
+module.exports = {
+    entry: './app/index.module.ts',
+    output: {
+        filename: './app/bundle.js'
+    },
+    resolve: {
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+    },
+    module: {
+        loaders: [
+            { test: /\.ts$/, loader: 'awesome-typescript-loader' }
+        ]
+    }
+}
+	This config does the following:
+		- specify to bundle it in one file called 'bundle.js'
+		- which extensions to take into account
+		- which 'loader' webpack should use to read our files. this loader will be used to 'read' the input. In our case it will compile the typescript files.
+
+**6) now add a script tag in index.html that will load the generated bundle. You can remove all the comments for bower and replace the head tag with:
+<head>
+    <script src="app/bundle.js" async></script>
+</head>
+
+**7) try the commands we defined in a shell:
+npm run build --> this will build the application
+npm start     --> this will build the application, launch a development server and watch for changes. all in one tool!
+
+**8) study the bundle.js file. You will see that everything is included. The webpack framework, angularjs and our own code.

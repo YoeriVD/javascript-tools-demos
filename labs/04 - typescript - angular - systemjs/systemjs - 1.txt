@@ -1,0 +1,74 @@
+Start by copying the previous lab (with require js) to a new folder.
+We will rewrite this to use the popular System.js library instead of requirejs.
+System.js is also used for JSPM as we will see later on.
+We will also instart angularjs using bower
+
+**1) execute the following commands
+bower uninstall requirejs --save
+bower install system.js --save
+bower install angularjs --save
+
+**2) open tsconfig.json. Change "amd" to "system"
+     You can run the typescript compiler (tsc or npm start) and inspect the generated .js files in /dist
+     This time you will see how System.js's syntax is applied to create and use modules.
+
+**3) open index.html and replace the requirejs script tag with the following:
+
+<script>
+    
+    System.config({
+        defaultJSExtensions: true,
+        paths : {
+            "app/*" : "dist/*.js"
+        }
+    })
+    System.import("app/index.module").then(function(){
+        //This function is called when app/index.module is loaded.  
+        angular.bootstrap(document, ['demo']) 
+    })
+
+</script>
+
+This does the following:
+	- tell system.js that everything a module is requested, it can append the .js extension to it to find it. eg './main/main.controller' corresponds './main/main.controller.js'
+	- System.import() is the method in system.js to load a module.
+	- WE CANNOT USE NG-APP! The problem is that our javascript is loaded by system.js. So none of our code will be ready when the angular library tries to start up.
+	  we will trigger the bootstrapping process of angular ourselves by calling angular.bootstrap() and specifying our start element and the name of the module to load.
+          ng-app="demo" corresponds to angular.bootstrap(document, ['demo']);
+
+**4) delete all code in the app folder
+
+**5) in the app folder, create a folder main
+
+**6) in the main folder, create main.html and main.controller.ts
+
+**7) in index.html replace the body tag with this:
+<body>
+    <div ng-include="'app/main/main.html'"></div>
+</body>
+
+	This is a directive that doesn't use routing. It will just load a template from the specified url.
+
+
+**8) add this to the main.html
+    <div ng-controller="MainController as main">
+        {{main.greeting}}
+    </div>
+
+**9) add this code to main.controller.ts
+export class MainController{
+    greeting : string;
+    /* @ngInject */
+    constructor(){
+        this.greeting = "hello boys!";
+    }    
+}
+
+**10) now in the app folder, create a file index.module.ts and add the controller to the module:
+import {MainController} from './main/main.controller';
+
+angular
+    .module('demo', [])
+    .controller('MainController', MainController)
+
+**11) run the application again with 'npm start'

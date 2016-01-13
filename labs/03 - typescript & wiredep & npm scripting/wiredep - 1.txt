@@ -26,8 +26,8 @@ npm install -g bower
 bower init
 Choose default values for everything. This will create a bower.json configuration file.
 
-**7) install system.js via bower and save it to bower.json:
-bower install system.js--save
+**7) install requirejs via bower and save it to bower.json:
+bower install requirejs--save
 
 
 **8) We will now install a tool that will automatically inject our dependencies in our html file.
