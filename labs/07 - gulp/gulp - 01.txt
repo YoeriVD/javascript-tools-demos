@@ -1,0 +1,158 @@
+In this final lab we will automate a few tasks with gulp
+
+start from the project in the folder 'start project' and execute 
+What has changed in this projects:
+	- index.html has been moved to the app folder
+	- index.html now tries to load lib/vendor.js (we will need to create this)
+	- a src folder has been introduced
+
+We won't be using webpack or jspm, but you could if you wanted to.
+
+**1) install the following tools and plugins
+npm install -g gulp
+npm install browser-sync gulp-concat gulp-filter gulp-typescript  gulp-wiredep
+npm install main-bower-files
+
+**2) in the root create a file called gulpfile.js
+
+**3) we will need to use the node method 'require' to load our plugins and libraries.
+This looks like CommonJS, but this is 'server-side' nodejs code. Require is a native method in a nodejs environment.
+CommonJS is a client side framework (so it is active in the browser, not on a server).
+
+start by importing gulp itself:
+var gulp = require('gulp')
+
+**4) define the first task where we will build our typescript:
+gulp.task('scripts', function(){
+    
+})
+
+**5) fetch all the source files using gulp.src():
+gulp.task('scripts', function(){
+    return gulp.src('app/src/**/*.ts')
+})
+
+**6) we will now use this stream of source files and 'pipe' it through to one of our plugins, the typescript plugin.
+require the gulp-typescript plugin by adding this to the top of the page:
+var ts = require('gulp-typescript')
+
+**6) use .pipe() and pass the plugin:
+gulp.task('scripts', function(){
+    return gulp.src('app/src/**/*.ts')
+               .pipe(ts({
+                   module : 'system',
+                   target : 'es5'
+               }))
+})
+
+**7) finally this task needs to save the processed files somewhere. Add another pipe to 
+     specify the destination where we want to save the javascript files.
+gulp.task('scripts', function(){
+    return gulp.src('app/src/**/*.ts')
+               .pipe(ts({
+                   module : 'system',
+                   target : 'es5'
+               }))
+               .pipe(gulp.dest('dist/src'))
+})
+
+
+**8) run the task in the command prompt with
+gulp [taskname]
+so in our case
+gulp scripts
+
+If all went well, a 'dist' folder should be created with all the scripts.
+
+**HINT: IntelliJ and Webstorm probably have support for Gulp, so you might be able to start your tasks directly from within your IDE
+
+**9) we will now create a task that will bundle our dependecies in the bower.json (system.js and angular)
+
+gulp.task('vendorjs', function() {
+	
+});
+
+**10) as source we would like to get all the bower dependencies. We will use the main-bower-files plugin:
+var mainBowerFiles = require('main-bower-files')
+
+**11) use this plugin to get all the source files:
+
+gulp.task('vendorjs', function() {
+	return gulp.src(mainBowerFiles())
+});
+
+
+**12) use the filter plugin to filter out only the *js files
+
+var filter = require('gulp-filter')  (on top of the file)
+
+
+gulp.task('vendorjs', function() {
+	return gulp.src(mainBowerFiles())
+		.pipe(filter('*.js'))
+});
+
+**13) use the concat plugin to put all these files together in 1 file and finally set the destination:
+var concat = require('gulp-concat') (again on top of the file)
+
+gulp.task('vendorjs', function() {
+	return gulp.src(mainBowerFiles())
+		.pipe(filter('*.js'))
+		.pipe(concat('vendor.js'))
+		.pipe(gulp.dest('dist/lib'));
+
+});
+
+
+
+
+**14) now add a task to copy our html files to our dist folder. Right now we don't do anything with the html, so it's a matter of gulp.src() and gulp.dest():
+gulp.task('copy-html', function(){
+    return gulp.src('./app/**/*.html').pipe(gulp.dest('dist'));
+})
+
+**15) create a task that runs all of the above tasks at once:
+gulp.task('build', ['scripts', 'vendorjs', 'copy-html'])
+
+
+
+**16) finally we will use browserSync to create a development server. We will even configure it so that everytime a typescript file is saved, the browser will refresh.
+      Load the browserSync pluging:
+var browserSync = require('browser-sync').create()
+
+**17) create the browserSync task
+gulp.task('browser-sync', function(){
+    return browserSync.init({
+        server: {
+            baseDir: './dist'
+        }
+    })
+})
+
+
+**18) expand the scripts task to also stream to browserSync (so that the tool can inject the new files)
+gulp.task('scripts', function(){
+    return gulp.src('app/src/**/*.ts')
+               .pipe(ts({
+                   module : 'system',
+                   target : 'es5'
+               }))
+               .pipe(gulp.dest('dist/src'))
+               .pipe(browserSync.stream())    <-- sync with the development server
+})
+
+
+
+**19) create the 'serve' task:
+gulp.task('serve',['build', 'browser-sync'], function(){
+    gulp.watch('app/**/*.ts', ['scripts'])
+    gulp.watch('dist/**/*.js').on("change", browserSync.reload);
+})
+
+	NOTE:
+		- we specified that before running serve the tasks 'build' and 'browser-sync' must be executed
+		- rather than reading once (gulp.src()) we use gulp.watch to execute the script tasks everytime a .ts file changes
+		- we also watch the destingation directory of the 'scripts' task. If the output changes, we will reload the browser.
+
+
+**20) try it yourself: run "gulp serve" in a command prompt and edit a few .ts files. Cool huh? :)

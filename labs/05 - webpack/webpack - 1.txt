@@ -1,12 +1,13 @@
 In this lab we will be using WebPack. A nice tool that offers us a few cool features.
 
-*****
-NOTE: I needed to add the following import in index.module.ts to make sure my editor would still work with angular: 
-import * as angular from 'angular';
-*****
 
 
 **1) start by copying the previous lab in a new folder
+
+*****
+NOTE: you need to add the following import in index.module.ts to make sure my editor would still work with angular: 
+/// <reference path="../typings/tsd.d.ts" />
+*****
 
 **2) remove bower.json and bower_components
 
