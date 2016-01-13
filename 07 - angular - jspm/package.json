@@ -5,8 +5,9 @@
   "scripts": {
     "postinstall": "tsd install",
     "test": "karma",
-    "prestart": "tsc",
+    "prestart": "npm run bundle",
     "start": "http-server",
+    "prebundle": "tsc",
     "bundle": "jspm bundle app/index.module --inject"
   },
   "author": "Yoeri Van Damme",

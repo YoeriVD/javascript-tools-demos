@@ -1,0 +1,48 @@
+As always, copy the previous lab in a new folder
+We will now learn about another tool called JSPM. This tool is pretty popular as it offers
+a wide solution. No need for bower, system.js, or webpack.
+
+**1) remove the webpack config
+
+**2) replace the package.json file with this:
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "prestart": "npm run bundle",
+    "start": "http-server",
+    "prebundle": "tsc",
+    "bundle": "jspm bundle app/index.module --inject"
+  },
+  "author": "Yoeri Van Damme",
+  "dependencies": {
+    "http-server": "^0.8.5",
+    "jspm": "^0.16.19"
+  }
+}
+
+
+**3) run npm install
+
+**4) we will now initialize jspm by running 'jspm init'
+	it will ask us several questions, reply as follows:
+	- prefix? yes
+	- baseUrl? just press enter
+	- jspm package folder? just press enter
+	- config path? jspm.config.js
+	- create? yes
+	- client baseUrl? yes
+	- transpiler? NO (we will compile our javascript ourselves)
+
+**5) install angular by
+jspm install angular
+
+**6) If we want to launch our application we could manually execute
+tsc
+jspm bundle app/index.module --inject
+    
+    or.. we can use our npm script tasks:
+npm start
+    this will execute the prestart first (bundle the code) and then run a server.
+
