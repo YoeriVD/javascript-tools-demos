@@ -8,8 +8,7 @@ import * as angular from 'angular';
 
 **1) start by copying the previous lab in a new folder
 
-**2) uninstall system.js
-bower uninstall system.js --save
+**2) remove bower.json and bower_components
 
 **3) open tsconfig.json and change "system" to "commonjs"
 
