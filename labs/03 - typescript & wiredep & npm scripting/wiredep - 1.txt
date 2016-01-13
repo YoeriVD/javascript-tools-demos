@@ -1,0 +1,76 @@
+In this lab we will play with the configuration of TypeScript and with a tool called wiredep.
+
+
+**1) start by copying the folder of the first lab and delete all .js files (not .ts!)
+
+**2) create a folder 'app' and move all typescript files to that folder
+
+**3) add an extra configuration property "outDir" : "dist"
+the result should look like this:
+{
+    "compilerOptions": {
+        "module": "amd",
+        "target": "es5",
+        "watch": false,
+        "outDir": "dist"
+    }   
+}
+
+**4) open a cmd prompt again and run 'tsc'. What is now different?
+
+
+**5) install bower by entering the following in a command prompt
+npm install -g bower
+
+**6) run :
+bower init
+Choose default values for everything. This will create a bower.json configuration file.
+
+**7) install system.js via bower and save it to bower.json:
+bower install system.js--save
+
+
+**8) We will now install a tool that will automatically inject our dependencies in our html file.
+     There are multiple tools available, but we will start with wiredep.
+     To do this we will use the npm package manager.
+     run the following commands:
+     npm init (choose default values)
+     npm install wiredep --save-dev
+
+     These commands will create a packages.json file and register wiredep as a project dependency
+
+**9) Time to use the tool!
+     Remove all script tags from index.html
+
+**10) modify the head tag to include comments. These comments will be processed by wiredep.
+
+<head>
+    <!-- bower:css -->
+    <!-- endbower -->
+
+    <!-- bower:js -->
+    <!-- endbower -->
+</head>
+
+
+**11) Almost there! We will now create a script file to call the wiredep tool.
+      Create wiredep.js in the root of the directory (on the same level as index.html, package.json,...)
+      add the following line:
+  require('wiredep')({ src: 'index.html' });
+
+**12) time to run the tool!
+      in the command promt execute the following:
+  node wiredep.js
+
+      Look at index.html and see what the tool has done for us. If all went well, wiredep will have read the bower.json file and injected all the dependencies where we told him to.
+      You will however notive that the 'data-main' tag required for RequireJS is missing. We will need to wire up the application ourselves.
+
+**13) add the following script at the bottom of the body tag:
+
+
+    requirejs(["dist/app"], function(app) {
+    //This function is called when dist/app is loaded.    
+});
+
+
+

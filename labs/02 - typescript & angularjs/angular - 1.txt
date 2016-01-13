@@ -1,0 +1,122 @@
+Now that you are a bit familiar with typescript, let's try this on angularjs
+
+Using modules and typescript will allow us to set up a much much more simple structure for
+our angularjs application.
+
+You will notice that almost all angular code is now written in index.module.ts.
+Instead of loading the module in every file and register our controller, services, directives,... we can
+work the other way around. Load everything we need in the module and register it. 
+This means:
+	- no more need for inject tools, the import statements will load everything (you have been using gulp.inject to inject your javascript files without knowing)
+	- no more IIFE (that ugly syntax)
+	- clean controllers that look a lot like C# or Java classes.
+
+**1) run the application to verify everything works with "gulp serve"
+     You will notice that the console output is slightly different (for typescript other tools are used)
+     Now do the following
+	- look at tslint.json. This file contains the rules for the coding style. You can disable any rule you want whenever you want during this lab.
+	- delete everything in /components
+	- in main.controller.ts replace the entire file with this:
+
+export class MainController {
+  /* @ngInject */
+  constructor () {
+   
+  }
+}
+
+	- in index.module.ts delete replace everything with
+
+/// <reference path="../../.tmp/typings/tsd.d.ts" />
+
+import { config } from './index.config';
+import { routerConfig } from './index.route';
+import { runBlock } from './index.run';
+import { MainController } from './main/main.controller';
+
+
+module demoApp {
+  'use strict';
+
+  angular.module('demoApp', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ngResource', 'ngRoute', 'toastr'])
+    .config(config)
+    .config(routerConfig)
+    .run(runBlock)
+    .controller('MainController', MainController)
+}
+
+
+**2) We will recreate the application from the first 3 days, but now in typescript so we will use a contact class!
+	- in components create a file called contact.ts and create a class contact
+	- add a constructor for all the properties (firstName, lastName, ...)
+	- use the public keyword in the constructor parameters to automatically create fields
+	- make the field optional by adding a '?' after the name
+
+export class Contact {
+    constructor(public firstName?: string, public lastName?: string, public email? : string) {
+
+    }
+}
+
+
+**3) You can copy all html (for main.html) from our old app. Typescript doens't change the way we write our html.
+
+**4) in the main.controller.ts, import the contact class
+import {Contact} from '../components/contact';
+
+**5) declare a field on the controller
+public contacts : Contact[]
+
+**6) initialize it in the constructor and add a few contacts:
+constructor() {
+        this.contacts = [
+            new Contact('Yoeri', 'Van Damme', 'yoerid@infosupport.com'),
+            new Contact('Sebastien', 'Dubois', 'yoeri.is.too.lazy.to.open@outlook.com'),
+        ];
+    }
+
+**7) in components, create contactName.filter.ts
+**8) expose a function contactNameFilter() that returns a lambda function for our filter
+     it should look like this:
+
+import { Contact } from './contact';
+
+export function contactNameFilter() {
+    return (contact : Contact) => contact.firstName + ' ' + contact.lastName;
+}
+
+   Again, notice that everything is strongly typed! <3
+
+**9) register the filter in index.module.ts
+	- import the filter
+	- add it to the module ( .filter('contactName', contactNameFilter); )
+
+**10) gulp serve and see the beauty!
+
+**11) add the form and the save method. You will need to declare a newContact field and
+      a form field in the controller. TIP: the type of a form object is ng.IFormController!
+
+
+**12) create the feedback directive. To give you a head start, you should start like this:
+export function feedBackDirective() : ng.IDirective {
+    return {
+        
+    }
+}
+
+	by adding the ": ng.IDirective", we specify a return type for the function. You IDE should be able to give you autocompletion for the directive now.
+	Don't forget to add it to the module and index.html!
+
+a few tips: 
+	- try to find types for all the injected parameters (eg for $window use ng.IWindowService, some might require some google work)
+	- declare your own interface type and specify it for the scope object like this:
+
+interface IFeedbackScope extends ng.IScope {
+    sendFeedback : Function;
+    feedback : string;
+}
+
+**13) if you have time left, write a service in typescript for the contacts. No need to call the restify, you can just return the same collection you created in the constructor of the controller.
+
+**14) if you still have some time left, try writing unit tests for the contactName filter with typescript. 
+	add contactName.spec.ts and you should be good to go :-)

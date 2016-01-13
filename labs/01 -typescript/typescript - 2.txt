@@ -1,0 +1,80 @@
+Time for some cool tricks with TypeScript!
+First of all we will make use of modules to split up our code and reuse it where possible.
+
+**1) create a new file 'util.ts'
+
+**2) move the print function (cut & paste) from app.ts to util.ts and prefix it with 'export'. Export exposes the function to external modules. The result should look like this:
+
+let text = <HTMLTextAreaElement>document.getElementById('log');
+export function print(line : string){    
+    text.value += (line + '\n');
+}
+
+**3) now, to be able to use this function again we will need to import this file.
+     Add the following line as a first line in app.ts:
+import {print} from './util';
+     
+     This is the ES6 way of importing modules, this syntax is natively supported if you use ES6. Right now we will be needing a module library for backwards compatibility.
+
+
+**4) Take a look at what is generated in the .js files.
+     You will see that it uses a define() method to create you application code. These are called modules.
+     These are modules that use syntax from a module libary called RequireJS. Other libraries are for example System.js, CommonJS, ...
+
+**5) open tsconfig.json again and change the 'module : "amd"' to 'module : "commonjs"' and see what happened in the generated .js files.
+     The syntax is now the syntax as used by the CommonJS library. Change the config back to 'module : "amd"' before you continue.
+
+**6) Time to test it in the browers. Before we can do this, we need to load the RequireJS library. Do this by changing the content of the head tag like this:
+<head>
+    <script data-main="app" src="http://requirejs.org/docs/release/2.1.22/minified/require.js"></script>
+</head>
+
+This tells the browser to:
+	- load the require.js file
+	- load the 'app' module to start the application
+
+
+**7) view the application in the browser and see what happens. If you check the network tab you will see that it load the app.js and the util.js.
+
+**8) create a new file called calculator.ts
+
+**9) add the following code :
+export class Calculator{
+    
+    constructor(private serial : string){
+        
+    }
+    
+    toString(){
+        return this.serial;
+    }
+    
+    sum(a : number, b : number){
+        return (a + b);
+    }
+}
+
+You should notice:
+	- the class definition
+	- the private keyword in the constructor, this is a short cut to creating a private field and assigning the value from the constructor.
+	- the type information is specified after the colon (':')
+
+**10) import the Calculator class in app.ts
+
+**11) create a new instance of Calculator
+
+**12) print the calculator, use calculator.toString(). This should show the serial you provided in the constructor.
+
+**13) print the sum of 2 numbers. The end result should look something like this:
+
+import { print } from './util';
+import { Calculator } from './calculator';
+
+//(code from previous exercises)
+
+let calculator = new Calculator("XYZ123");
+print(calculator.toString())
+print('the sume of 3 and 4 is: ' + calculator.sum(3, 4))
+
+**14) if time permits, add functions for substract, multiply and devide.
+	- research what default parameter values are, and assign '1' as default value for the second argument of multiply and devide

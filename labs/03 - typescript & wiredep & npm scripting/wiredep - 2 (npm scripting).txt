@@ -1,0 +1,67 @@
+In this lab you will learn about npm scripting.
+So far we have used npm to install tools usefull for development. We will now define our own tasks so it's easier to run them multiple times.
+
+**1) let's start with creating a task for wiredep. Open package.json
+
+**2) add a 'scripts' property so that the file looks like this:
+
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+  },
+  "author": "Yoeri Van Damme",
+  "dependencies": {
+    "wiredep": "^3.0.0"
+  }
+}
+
+
+**3) in this scripts object, we can define our own tasks. The key will be the name of the task and the value the command to execute.
+     Add the following task to launch wiredep:
+
+"scripts": {
+    "wiredep" : "node wiredep.js"
+  },
+
+**4) run the command in your command prompt by using the following syntax:
+
+npm run [name-of-task]
+so in our case:
+npm run wiredep
+
+    Use this task in the future to update the files should it be necessary.
+
+**5) install http-server by running
+npm install http-server --save-dev
+
+**6) add the following task to the npm scripts object:
+"start": "http-server"
+
+     This task is one of the 2 "special" tasks in npm. They are predefined and thus you don't need to use "npm run " to start them. You can just call "npm start" to execute this.
+     The other task is "install".
+
+**7) enter "npm start" in the command prompt and go http://127.0.0.1:8080 with a browser. Your website should be visible
+
+
+**8) we can automate even further by calling the wiredep task AND the typescript compiler before we start the application. First modify tsconfig.json and disable the watch:
+{
+    "compilerOptions": {
+        "module": "amd",
+        "target": "es5",
+        "watch": false,
+        "outDir": "dist"
+    }   
+}
+
+**9) add the following script task in package.json:
+"prestart": "ntsc && npm run wiredep"
+
+This task will run 'pre' the start task. If you want to, you can also define a 'poststart' task. The 'pre' and 'post' prefixes are a convention and will work for every task defined.
+
+
+
+
+
+**8) let's make sure that wiredep is run everytime we start our application    

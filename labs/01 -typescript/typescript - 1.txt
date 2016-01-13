@@ -1,0 +1,56 @@
+**1) create a new folder
+**2) create index.html
+**3) add the following html:
+
+<html>
+<head>
+</head>
+<body>
+    <textarea name="" id="log" cols="30" rows="10"></textarea>
+</body>
+</html>
+
+**4) add a new file app.ts (notice the typescript extension) and write the following
+
+let message = 'Hello from typescript!';
+let text = <HTMLTextAreaElement>document.getElementById('log');
+function print(line : string){    
+    text.value += (line + '\n');
+}
+
+print(message);
+
+**5) Time to compile typescript! execute the following command
+npm install -g typescript
+
+**6) create a file 'tsconfig.json'. The typescript compiler will load this file
+   and apply the configuration.
+
+**7) enter the following in the file:
+{
+    "compilerOptions": {
+        "module": "amd",
+        "target": "es5",
+        "watch": true
+    }   
+}
+
+This is telling typescript: 
+	- compile to ES5
+	- once started, watch the directory and recompile changed files automatically
+	- use "amd" style to create modules. You will learn about this later in this lab.
+
+
+**8) run the typescript compiler by executing the following command:
+tsc
+You should see a file 'app.js' that is generated.
+
+**9) refence this file in your html by adding a script tag:
+<head>
+    <script src="app.js"></script>
+</head>
+
+**10) open index.html in a browser or launch a local server.
+HINT: launching a server is very easy with node! Just enter the following:
+npm install -g http-server
+http-server
