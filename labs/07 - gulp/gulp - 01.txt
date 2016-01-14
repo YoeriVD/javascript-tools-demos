@@ -9,7 +9,7 @@ What has changed in this projects:
 We won't be using webpack or jspm, but you could if you wanted to.
 
 **1) install the following tools and plugins
-npm install -g gulp
+npm install -g gulp (mac users might need to install this locally as well)
 npm install browser-sync gulp-concat gulp-filter gulp-typescript  gulp-wiredep
 npm install main-bower-files
 
