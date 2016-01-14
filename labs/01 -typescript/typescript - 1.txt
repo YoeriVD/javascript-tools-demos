@@ -45,10 +45,10 @@ This is telling typescript:
 tsc
 You should see a file 'app.js' that is generated.
 
-**9) refence this file in your html by adding a script tag:
-<head>
+**9) refence this file in your html by adding a script tag on the bottom of the page:
+
     <script src="app.js"></script>
-</head>
+</body>
 
 **10) open index.html in a browser or launch a local server.
 HINT: launching a server is very easy with node! Just enter the following:
