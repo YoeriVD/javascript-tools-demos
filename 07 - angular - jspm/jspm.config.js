@@ -9,9 +9,7 @@ System.config({
   bundles: {
     "build.js": [
       "app/index.module",
-      "github:angular/bower-angular@1.4.8",
-      "app/main/main.controller",
-      "github:angular/bower-angular@1.4.8/angular"
+      "app/main/main.controller"
     ]
   },
 

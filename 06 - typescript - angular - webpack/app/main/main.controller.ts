@@ -2,6 +2,6 @@ export class MainController{
     greeting : string;
     /* @ngInject */
     constructor(){
-        this.greeting = "hello boys!";
+        this.greeting = "hello girls!";
     }    
 }

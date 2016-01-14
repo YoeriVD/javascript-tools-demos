@@ -7,7 +7,7 @@
     "test": "karma",
     "bower" : "bower install",
     "wiredep" : "node wiredep.js",
-    "prestart": "ntsc && npm run wiredep",
+    "prestart": "tsc && npm run wiredep",
     "start": "http-server"
   },
   "author": "Yoeri Van Damme",
